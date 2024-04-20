@@ -7,11 +7,11 @@ const {
 } = require("../../Controllers/WardrobeController/ClothingItemController");
 const express = require("express");
 const clothingItemRoute = express.Router();
+const upload = require("../../Config/PhotoManagement/Multer");
+clothingItemRoute.post("/", upload.single("image"), createClothingItem);
+clothingItemRoute.get("/", upload.single("image"), getClothingItems);
+clothingItemRoute.get("/:id", upload.single("image"), getClothingItemById);
 
-clothingItemRoute.post("/", createClothingItem);
-clothingItemRoute.get("/", getClothingItems);
-clothingItemRoute.get("/:id", getClothingItemById);
-
-clothingItemRoute.put("/:id", updateClothingItem);
-clothingItemRoute.delete("/:id", deleteClothingItem);
+clothingItemRoute.put("/:id", upload.single("image"), updateClothingItem);
+clothingItemRoute.delete("/:id", upload.single("image"), deleteClothingItem);
 module.exports = clothingItemRoute;

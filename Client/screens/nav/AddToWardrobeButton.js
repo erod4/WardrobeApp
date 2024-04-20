@@ -1,41 +1,45 @@
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
-import React from "react";
+import React, { useContext, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faPlus, faSpinner } from "@fortawesome/free-solid-svg-icons";
+import { addToWardrobeContext } from "../home/homeContextProviders/AddToWardrobeContextProvider";
 
 const AddToWardrobeButton = () => {
+  const { setModal, isModalOpen } = useContext(addToWardrobeContext);
   onPress = () => {
-    console.log("Enable Modal");
+    setModal(true);
   };
   return (
-    <TouchableOpacity
-      style={{
-        top: 0,
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-      onPress={onPress}
-    >
-      <View
+    <>
+      <TouchableOpacity
         style={{
-          width: 65,
-          height: 65,
-          borderRadius: 100,
-          backgroundColor: "#3d348b",
+          top: 0,
           justifyContent: "center",
           alignItems: "center",
-          // Shadow for iOS
-          shadowColor: "#000",
-          shadowOffset: { width: 2, height: 2 },
-          shadowOpacity: 0.3,
-          shadowRadius: 5,
-          // Elevation for Android
-          elevation: 8,
         }}
+        onPress={onPress}
       >
-        <FontAwesomeIcon icon={faPlus} size={25} color="#fff" />
-      </View>
-    </TouchableOpacity>
+        <View
+          style={{
+            width: 65,
+            height: 65,
+            borderRadius: 100,
+            backgroundColor: "#3d348b",
+            justifyContent: "center",
+            alignItems: "center",
+            // Shadow for iOS
+            shadowColor: "#000",
+            shadowOffset: { width: 2, height: 2 },
+            shadowOpacity: 0.3,
+            shadowRadius: 5,
+            // Elevation for Android
+            elevation: 8,
+          }}
+        >
+          <FontAwesomeIcon icon={faPlus} size={25} color="#fff" />
+        </View>
+      </TouchableOpacity>
+    </>
   );
 };
 const styles = StyleSheet.create({

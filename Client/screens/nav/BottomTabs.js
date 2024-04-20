@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
-import React from "react";
+import React, { useContext } from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 import HomeScreen from "../home/HomeScreen";
@@ -7,9 +7,11 @@ import WardrobeScreen from "../wardrobe/WardrobeScreen";
 import AddToWardrobeButton from "./AddToWardrobeButton";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faPlus, faShirt, faHome } from "@fortawesome/free-solid-svg-icons";
+import { addToWardrobeContext } from "../home/homeContextProviders/AddToWardrobeContextProvider";
 const Placeholder = () => null; // Or return minimal UI
 
 const BottomTabs = () => {
+  const { isModalOpen, setModal } = useContext(addToWardrobeContext);
   const Tab = createBottomTabNavigator();
   return (
     <Tab.Navigator

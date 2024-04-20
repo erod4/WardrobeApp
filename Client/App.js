@@ -6,30 +6,33 @@ import HomeScreen from "./screens/home/HomeScreen";
 import WardrobeScreen from "./screens/wardrobe/WardrobeScreen";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import BottomTabs from "./screens/nav/BottomTabs";
+import AddToWardrobeContextProvider from "./screens/home/homeContextProviders/AddToWardrobeContextProvider";
 
 export default function App() {
   const Stack = createNativeStackNavigator();
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <NavigationContainer>
-        <Stack.Navigator initialRouteName="Nav">
-          <Stack.Screen
-            name="Wardrobe"
-            component={WardrobeScreen}
-            options={{ title: "" }}
-          />
-          <Stack.Screen
-            name="Nav"
-            component={BottomTabs}
-            options={{
-              headerShown: false,
-              title: "Home",
-              headerBackVisible: true,
-            }}
-          />
-        </Stack.Navigator>
-      </NavigationContainer>
+      <AddToWardrobeContextProvider>
+        <NavigationContainer>
+          <Stack.Navigator initialRouteName="Nav">
+            <Stack.Screen
+              name="Wardrobe"
+              component={WardrobeScreen}
+              options={{ title: "" }}
+            />
+            <Stack.Screen
+              name="Nav"
+              component={BottomTabs}
+              options={{
+                headerShown: false,
+                title: "Home",
+                headerBackVisible: true,
+              }}
+            />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </AddToWardrobeContextProvider>
     </GestureHandlerRootView>
   );
 }

@@ -1,10 +1,17 @@
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
-import React from "react";
+import React, { useContext } from "react";
+import { addToWardrobeContext } from "../homeContextProviders/AddToWardrobeContextProvider";
 
 const RandomOutfitButton = () => {
+  const { setModal, isModalOpen } = useContext(addToWardrobeContext);
   return (
     <View style={style.container}>
-      <TouchableOpacity style={style.button}>
+      <TouchableOpacity
+        style={style.button}
+        onPress={() => {
+          console.log(isModalOpen);
+        }}
+      >
         <Text style={style.buttonText}>Generate Random Outfit</Text>
       </TouchableOpacity>
     </View>

@@ -1,11 +1,17 @@
 import { View, Text, SafeAreaView } from "react-native";
-import React from "react";
+import React, { useContext } from "react";
 import WeatherSection from "./WeatherSection";
 import RecentOutfits from "./RecentOutfits/RecentOutfits";
 import RandomOutfitButton from "./RandomOutfit/RandomOutfitButton";
 import PinnedOutfit from "./PinnedOutfit/PinnedOutfit";
+import { addToWardrobeContext } from "./homeContextProviders/AddToWardrobeContextProvider";
 
 const HomeScreen = () => {
+  const { isModalOpen, setModal } = useContext(addToWardrobeContext);
+  const onCancel = () => {
+    setModal(false);
+  };
+
   return (
     <View style={{ backgroundColor: "#fff" }}>
       <SafeAreaView
