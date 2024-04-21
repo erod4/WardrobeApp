@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
   pinnedOutfit: {
     width: "90%",
     borderRadius: 10,
-    backgroundColor: "#ddd",
+    backgroundColor: "#fff",
     height: "100%",
   },
 });

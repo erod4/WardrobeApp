@@ -41,7 +41,15 @@ const BottomTabs = () => {
           tabBarIcon: ({ focused }) => (
             <Text style={{ color: focused ? "#7DCEA0" : "#C8C8C8" }}>+</Text>
           ),
-          tabBarButton: () => <AddToWardrobeButton />,
+          tabBarButton: () => (
+            <AddToWardrobeButton
+              width={65}
+              height={65}
+              onPress={() => {
+                setModal(true);
+              }}
+            />
+          ),
           headerShown: false,
         }}
       />

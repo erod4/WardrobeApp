@@ -1,12 +1,14 @@
 import { Alert } from "react-native";
+import { options } from "../AddToWardrobeModal/WadrobeMenuOptions";
 
 const { useContext, createContext, useReducer } = require("react");
-const { SET_MODAL } = require("./HomeContextTypes");
+const { SET_MODAL, NEW_OUTFIT_PRESS } = require("./HomeContextTypes");
 
 export const addToWardrobeContext = createContext();
 
 const INITIAL_STATE = {
   isModalOpen: false,
+  navToNewOutfit: false,
 };
 
 const reducer = (state, action) => {
@@ -17,6 +19,13 @@ const reducer = (state, action) => {
         ...state,
         isModalOpen: payload,
       };
+    case NEW_OUTFIT_PRESS:
+      return {
+        ...state,
+        isModalOpen: payload?.isModalOpen,
+        navToNewOutfit: payload?.navToNewOutfit,
+      };
+
     default:
       return state;
   }
@@ -26,36 +35,23 @@ const AddToWardrobeContextProvider = ({ children }) => {
 
   const setModal = (action) => {
     console.log(`Modal set to: ${action}`);
-    dispatch({
-      type: SET_MODAL,
-      payload: action,
-    });
+
     if (action) {
-      Options();
+      dispatch({
+        type: SET_MODAL,
+        payload: action,
+      });
+      options(setModal, dispatch);
     }
   };
-  const Options = () => {
-    Alert.alert("Wadrobe Menu", "", [
-      {
-        text: "Cancel",
-        onPress: () => {
-          setModal(false);
-        },
-        style: "cancel",
-      },
-      {
-        text: "Add Outfit ",
-        onPress: null,
-      },
-      {
-        text: "Add Clothing Item",
-        onPress: null,
-      },
-    ]);
-  };
+
   return (
     <addToWardrobeContext.Provider
-      value={{ setModal, isModalOpen: state?.isModalOpen }}
+      value={{
+        setModal,
+        isModalOpen: state?.isModalOpen,
+        navToNewOutfit: state?.navToNewOutfit,
+      }}
     >
       {children}
     </addToWardrobeContext.Provider>

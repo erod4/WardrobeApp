@@ -7,6 +7,9 @@ import WardrobeScreen from "./screens/wardrobe/WardrobeScreen";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import BottomTabs from "./screens/nav/BottomTabs";
 import AddToWardrobeContextProvider from "./screens/home/homeContextProviders/AddToWardrobeContextProvider";
+import AddNewOutfit from "./screens/AddNewOutfit/AddNewOutfit";
+import DoneButton from "./screens/AddNewOutfit/DoneButton";
+import ReturnButton from "./screens/nav/ReturnButton";
 
 export default function App() {
   const Stack = createNativeStackNavigator();
@@ -28,6 +31,15 @@ export default function App() {
                 headerShown: false,
                 title: "Home",
                 headerBackVisible: true,
+              }}
+            />
+            <Stack.Screen
+              name="AddNewOutfit"
+              component={AddNewOutfit}
+              options={{
+                title: "",
+                headerRight: () => <DoneButton />,
+                headerLeft: () => <ReturnButton />,
               }}
             />
           </Stack.Navigator>

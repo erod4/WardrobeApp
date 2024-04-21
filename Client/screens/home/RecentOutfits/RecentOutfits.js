@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
   child: {
     width: width,
     justifyContent: "center",
-    backgroundColor: "#fff",
+    backgroundColor: "#ddd",
     alignItems: "center",
   },
   text: {
@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     width: "90%",
     borderRadius: 10,
-    backgroundColor: "#ddd",
+    backgroundColor: "#fff",
     height: "100%",
   },
 });

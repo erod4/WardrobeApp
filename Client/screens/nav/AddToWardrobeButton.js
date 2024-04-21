@@ -4,11 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faPlus, faSpinner } from "@fortawesome/free-solid-svg-icons";
 import { addToWardrobeContext } from "../home/homeContextProviders/AddToWardrobeContextProvider";
 
-const AddToWardrobeButton = () => {
-  const { setModal, isModalOpen } = useContext(addToWardrobeContext);
-  onPress = () => {
-    setModal(true);
-  };
+const AddToWardrobeButton = ({ onPress, width, height }) => {
   return (
     <>
       <TouchableOpacity
@@ -21,8 +17,8 @@ const AddToWardrobeButton = () => {
       >
         <View
           style={{
-            width: 65,
-            height: 65,
+            width,
+            height,
             borderRadius: 100,
             backgroundColor: "#3d348b",
             justifyContent: "center",
@@ -42,11 +38,29 @@ const AddToWardrobeButton = () => {
     </>
   );
 };
+
+export const ModalButton = ({ onPress }) => {
+  return (
+    <View style={styles.buttonContainer}>
+      <AddToWardrobeButton onPress={onPress} width={50} height={50} />
+    </View>
+  );
+};
+
 const styles = StyleSheet.create({
   button: {
     height: 100,
     width: 100,
     backgroundColor: "red",
   },
+  buttonContainer: {
+    width: "100%",
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "flex-end",
+    paddingRight: 20,
+    paddingBottom: 20,
+  },
 });
+
 export default AddToWardrobeButton;
