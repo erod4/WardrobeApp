@@ -3,6 +3,7 @@ const express = require("express");
 const clothingItemRoute = require("./Routes/WardrobeRoutes/ClothingItemRoute");
 const OutfitsRoute = require("./Routes/WardrobeRoutes/OutfitsRoutes");
 const globalErrorHandler = require("./Middleware/GlobalErrorHandler");
+const UserRoute = require("./Routes/UserRoutes/UserRoute");
 const app = express();
 // require("./Config/AWS/S3");
 //--------------------------------database-------------------------------//
@@ -10,9 +11,9 @@ require("./Config/dbConnect");
 const port = 8000;
 
 //--------------------------------routes--------------------------------//
-app.use("/api/v1/clothing-items", clothingItemRoute);
+app.use("api/v1/clothing-items", clothingItemRoute);
 app.use("api/v1/outfits", OutfitsRoute);
-
+app.use("api/v1.users", UserRoute);
 //--------------------------------middleware----------------------------//
 app.use(globalErrorHandler);
 

@@ -1,5 +1,11 @@
 const createOutfit = async (req, res) => {
   try {
+    const id = req.user;
+    const { clothingItemsID } = req.body;
+
+    if (clothingItemsID.length == 0) {
+      //throw error
+    }
   } catch (error) {}
 };
 
