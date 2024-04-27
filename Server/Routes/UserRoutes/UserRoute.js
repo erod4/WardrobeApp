@@ -6,7 +6,7 @@ const {
 
 const UserRoute = express.Router();
 
-UserRoute.post("/", registerController);
-UserRoute.get("/:id", loginController);
+UserRoute.post("/register", registerController);
+UserRoute.get("/login", loginController);
 
 module.exports = UserRoute;

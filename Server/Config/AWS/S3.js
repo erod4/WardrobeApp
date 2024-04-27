@@ -2,8 +2,9 @@ const {
   S3Client,
   ListBucketsCommand,
   PutObjectCommand,
+  DeleteObjectCommand,
 } = require("@aws-sdk/client-s3");
-
+const short = require("short-uuid");
 // Create an S3 client
 const s3Client = new S3Client({
   region: process.env.REGION,
@@ -26,19 +27,34 @@ const testS3 = async () => {
 testS3();
 
 const uploadToS3 = async (file, buffer, userId) => {
-  console.log(buffer.data);
+  const unique_id = short.generate();
+  const key = userId + unique_id + ".jpg";
+
   const params = {
     Bucket: process.env.BUCKET_NAME,
-    Key: userId + file.originalname, // File name you want to save as in S3
+    Key: key, // File name you want to save as in S3
     Body: buffer.data,
   };
   try {
     const data = await s3Client.send(new PutObjectCommand(params));
-    console.log(data);
-    return data;
+    const url = `https://${process.env.BUCKET_NAME}.s3.${process.env.REGION}.amazonaws.com/${key}`;
+    return { data, url };
   } catch (error) {
     console.error(error);
     return error;
   }
 };
-module.exports = uploadToS3;
+const deleteFromS3 = async (key) => {
+  const params = {
+    Bucket: process.env.BUCKET_NAME,
+    Key: key.split("/")[3],
+  };
+  try {
+    const data = await s3Client.send(new DeleteObjectCommand(params));
+    console.table(data);
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+module.exports = { uploadToS3, deleteFromS3 };

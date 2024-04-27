@@ -4,6 +4,7 @@ const bcrypt = require("bcrypt");
 const generateToken = require("../../Utils/genToken");
 
 const registerController = async (req, res, next) => {
+  console.log(req.body);
   const { phone, name, password } = req.body;
 
   try {
@@ -11,10 +12,11 @@ const registerController = async (req, res, next) => {
     if (userFound) {
       return next(new AppErr("Phone Number In Use", 400));
     }
-    const salt = bcrypt.genSalt(10);
-    const hashedPassword = bcrypt.hash(password, salt);
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
 
     const user = await User.create({ phone, password: hashedPassword, name });
+    console.log(user.id);
     res.json({
       status: "Success",
       firstName: user.name.split(" ")[0] ? user.name.split(" ")[0] : user.name,
@@ -22,6 +24,7 @@ const registerController = async (req, res, next) => {
       token: generateToken(user.id),
     });
   } catch (error) {
+    // console.log(error);
     return next(new AppErr(error.message, 500));
   }
 };
