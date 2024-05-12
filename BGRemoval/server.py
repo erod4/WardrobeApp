@@ -1,7 +1,7 @@
-from flask import Flask, request, Response
+from flask import Flask, request, Response,jsonify
 from Config.RemoveBG import removeBackground
 from flask_cors import CORS
-
+import traceback
 
 
 app = Flask(__name__)
@@ -9,11 +9,18 @@ CORS(app, resources={r"/*": {"origins": "*"}})
 
 @app.route('/remove-bg', methods=['POST'])
 def handle_remove_bg():
-    file=request.files['image']
-    if file:
+    try:
+        file=request.files['image']
+        if not file:
+            return jsonify({"error": "Image not provided"}), 400 
         output_path=removeBackground(file.read())
         return Response(output_path,mimetype='image/png')
-    return 'No File Received', 400
+    except Exception as e:
+        error_message=str(e)
+        error_trace=traceback.format_exc()
+        return jsonify({"error":"An Error Has Occured"})
+
+   
 
 
 

@@ -114,7 +114,7 @@ const deleteClothingItem = async (req, res, next) => {
   const { cloth_id } = req.body;
   try {
     const id = req.user;
-    const userFound = User.findById(id);
+    const userFound = await User.findById(id);
     if (!userFound) {
       next(new AppErr("User Not Found", 400));
     }
@@ -132,6 +132,11 @@ const deleteClothingItem = async (req, res, next) => {
     }
     //delete image from db
     const deletedItem = await ClothingItem.findByIdAndDelete(cloth_id);
+    userFound.clothingItems = userFound.clothingItems.filter(
+      (id) => id.toString() !== cloth_id
+    );
+    console.log(userFound.clothingItems);
+    await userFound.save();
     //respond
     res.json({ status: "Success" });
   } catch (error) {

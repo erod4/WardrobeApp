@@ -8,35 +8,35 @@ import {
 import React, { useState } from "react";
 const DATA = [
   {
-    id: "1",
+    id: 1,
     title: "All",
   },
   {
-    id: "8",
+    id: 8,
     title: "Outfits",
   },
   {
-    id: "2",
+    id: 2,
     title: "Tops",
   },
   {
-    id: "3",
+    id: 3,
     title: "Pants",
   },
   {
-    id: "4",
+    id: 4,
     title: "Shorts",
   },
   {
-    id: "5",
+    id: 5,
     title: "Hats",
   },
   {
-    id: "6",
+    id: 6,
     title: "Socks",
   },
   {
-    id: "7",
+    id: 7,
     title: "Shoes",
   },
 ];
@@ -54,7 +54,7 @@ const Item = ({ item, onPress, backgroundColor, textColor }) => {
     </TouchableOpacity>
   );
 };
-const TopTabsScrollView = () => {
+const TopTabsScrollView = ({ setItem }) => {
   const [selectedId, setSelectedId] = useState(DATA[0].id);
   const renderItem = ({ item }) => {
     const textColor = item.id === selectedId ? "black" : "grey";
@@ -63,6 +63,7 @@ const TopTabsScrollView = () => {
         item={item}
         onPress={() => {
           setSelectedId(item.id);
+          setItem(item.id);
         }}
         textColor={textColor}
       />

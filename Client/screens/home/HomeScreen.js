@@ -5,10 +5,15 @@ import RecentOutfits from "./RecentOutfits/RecentOutfits";
 import RandomOutfitButton from "./RandomOutfit/RandomOutfitButton";
 import PinnedOutfit from "./PinnedOutfit/PinnedOutfit";
 import { addToWardrobeContext } from "./homeContextProviders/AddToWardrobeContextProvider";
+import { authContext } from "../Auth/AuthProvider/AuthProvider";
 
 const HomeScreen = ({ navigation }) => {
   const { isModalOpen, setModal, navToNewOutfit } =
     useContext(addToWardrobeContext);
+  const { profile, getUserAction } = useContext(authContext);
+  useEffect(() => {
+    getUserAction();
+  }, []);
   //if new outfit button is pressed in modal then nav to screen
   useEffect(() => {
     if (navToNewOutfit) {

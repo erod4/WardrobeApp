@@ -21,7 +21,7 @@ const DoneButton = () => {
   };
   return (
     <TouchableOpacity style={styles.DoneButton} onPress={handlePress}>
-      <Text style={styles.DoneButtonText}>Done</Text>
+      <Text style={styles.DoneButtonText}>Save</Text>
     </TouchableOpacity>
   );
 };

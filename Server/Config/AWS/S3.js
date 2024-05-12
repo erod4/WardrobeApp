@@ -28,7 +28,7 @@ testS3();
 
 const uploadToS3 = async (file, buffer, userId) => {
   const unique_id = short.generate();
-  const key = userId + unique_id + ".jpg";
+  const key = userId + unique_id + ".png";
 
   const params = {
     Bucket: process.env.BUCKET_NAME,

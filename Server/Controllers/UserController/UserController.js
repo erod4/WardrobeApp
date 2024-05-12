@@ -30,9 +30,10 @@ const registerController = async (req, res, next) => {
 };
 
 const loginController = async (req, res, next) => {
+  // console.table(req.body);
   const { phone, password } = req.body;
   try {
-    const userFound = User.findOne({ phone });
+    const userFound = await User.findOne({ phone });
     if (!userFound) {
       next(new AppErr("Invalid Login Credentials", 400));
     }
@@ -51,12 +52,24 @@ const loginController = async (req, res, next) => {
         : " ",
       phone: userFound.phone,
       token: generateToken(userFound.id),
-      ClothingItems: userFound.ClothingItems,
+      ClothingItems: userFound.clothingItems,
       Outfits: userFound.Outfits,
     });
   } catch (error) {
+    console.log(error);
     next(new AppErr(error.message), 500);
   }
 };
+const getUserController = async (req, res, next) => {
+  const id = req.user;
+  try {
+    const userFound = await User.findById(id)
+      .populate({ path: "clothingItems", model: "ClothingItem" })
+      .populate({ path: "Outfits", model: "Outfits" });
 
-module.exports = { registerController, loginController };
+    res.json(userFound);
+  } catch (error) {
+    next(new AppErr(error.message, 500));
+  }
+};
+module.exports = { registerController, loginController, getUserController };

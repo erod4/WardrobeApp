@@ -1,7 +1,12 @@
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faArrowAltCircleRight } from "@fortawesome/free-solid-svg-icons";
+import {
+  faArrowAltCircleRight,
+  faXmarkCircle,
+} from "@fortawesome/free-solid-svg-icons";
+import { useNavigation } from "@react-navigation/native";
+import { readData } from "../GlobalHelperFunctions/GlobalHelperFunctions";
 
 const ClothingItems = () => {
   const clothingItemNames = ["Hat", "Top", "Bottoms", "Shoes"];
@@ -15,14 +20,35 @@ const ClothingItems = () => {
 };
 
 const ClothingItem = ({ name }) => {
+  const [item, setItem] = useState(null);
+  //if user previously selected item check storage for item then display it and show remove item button
+  useEffect(() => {
+    const fetchDataFromStorage = async () => {
+      setItem(await readData(name));
+    };
+    fetchDataFromStorage();
+  }, []);
+  //handle select item
+  const navigator = useNavigation();
+  const handlePress = () => {
+    navigator.navigate("SelectItemsPage", { name });
+  };
+  //remove item from storage if xmark is pressed
+  const handleClearItem = async () => {
+    await clearData(name);
+  };
   return (
     <View style={style.ClothingItem}>
       <View style={style.itemType}>
         <Text style={style.itemTypeText}>{name}</Text>
+        {item && (
+          <TouchableOpacity style={style.clearItem} onPress={handleClearItem}>
+            <FontAwesomeIcon icon={faXmarkCircle} />
+          </TouchableOpacity>
+        )}
       </View>
       <View style={style.getFromWadrobeButton}>
-        <TouchableOpacity>
-          {/* <Text style={style.getFromWadrobeText}>From Wardrobe</Text> */}
+        <TouchableOpacity onPress={handlePress}>
           <FontAwesomeIcon
             icon={faArrowAltCircleRight}
             size={22}
@@ -47,6 +73,11 @@ const style = StyleSheet.create({
     width: "55%",
     borderRadius: 10,
     backgroundColor: "#fff",
+  },
+  clearItem: {
+    position: "absolute",
+    left: -5,
+    top: -5,
   },
   itemType: {
     backgroundColor: "rgba(118	,120	,237, 0.3)",

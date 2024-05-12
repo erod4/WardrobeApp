@@ -7,10 +7,11 @@ const {
   updateOutfit,
   deleteOutfit,
 } = require("../../Controllers/WardrobeController/OutfitsController");
-OutfitsRoute.post("/", createOutfit);
-OutfitsRoute.get("/", getOutfits);
-OutfitsRoute.get("/:id", getOutfitById);
+const isLoggedIn = require("../../Middleware/isLoggedIn");
+OutfitsRoute.post("/", isLoggedIn, createOutfit);
+OutfitsRoute.get("/", isLoggedIn, getOutfits);
+OutfitsRoute.get("/:id", isLoggedIn, getOutfitById);
 
-OutfitsRoute.put("/:id", updateOutfit);
-OutfitsRoute.delete("/:id", deleteOutfit);
+OutfitsRoute.put("/", isLoggedIn, updateOutfit);
+OutfitsRoute.delete("/", isLoggedIn, deleteOutfit);
 module.exports = OutfitsRoute;
