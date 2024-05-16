@@ -6,12 +6,14 @@ import RandomOutfitButton from "./RandomOutfit/RandomOutfitButton";
 import PinnedOutfit from "./PinnedOutfit/PinnedOutfit";
 import { addToWardrobeContext } from "./homeContextProviders/AddToWardrobeContextProvider";
 import { authContext } from "../Auth/AuthProvider/AuthProvider";
+import { allDeviceStorage } from "../GlobalHelperFunctions/GlobalHelperFunctions";
 
 const HomeScreen = ({ navigation }) => {
   const { isModalOpen, setModal, navToNewOutfit } =
     useContext(addToWardrobeContext);
   const { profile, getUserAction } = useContext(authContext);
   useEffect(() => {
+    allDeviceStorage();
     getUserAction();
   }, []);
   //if new outfit button is pressed in modal then nav to screen
@@ -22,19 +24,21 @@ const HomeScreen = ({ navigation }) => {
   }, [navToNewOutfit]);
 
   return (
-    <View style={{ backgroundColor: "#ddd" }}>
+    <View style={{ backgroundColor: "#fff" }}>
       <SafeAreaView
         style={{
-          backgroundColor: "#ddd",
+          backgroundColor: "#fff",
           height: "100%",
-          gap: 12,
+          width: "100%",
+          justifyContent: "space-between",
+          alignItems: "center",
+          gap: 20,
         }}
       >
         <WeatherSection />
         <PinnedOutfit />
 
         <RecentOutfits />
-        <RandomOutfitButton />
       </SafeAreaView>
     </View>
   );

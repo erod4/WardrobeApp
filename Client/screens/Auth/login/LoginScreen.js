@@ -1,8 +1,10 @@
 import { View, Text, SafeAreaView, StyleSheet } from "react-native";
-import React from "react";
+import React, { useContext } from "react";
 import LoginForm from "./LoginForm";
+import { authContext } from "../AuthProvider/AuthProvider";
 
 const LoginScreen = () => {
+  const { error } = useContext(authContext);
   return (
     <View style={styles.page}>
       <SafeAreaView style={styles.safeAreaView}>
@@ -14,6 +16,7 @@ const LoginScreen = () => {
             Happy to see you again, please login here
           </Text>
         </View>
+
         <LoginForm />
       </SafeAreaView>
     </View>

@@ -12,7 +12,16 @@ const clothingItemSchema = new mongoose.Schema(
       required: true,
       trim: true,
       lowercase: true, // Consider using lowercase for easier categorization
-      enum: ["tops", "bottoms", "hats", "shoes"], // Example categories
+      enum: [
+        "jackets",
+        "t-shirts",
+        "shirts",
+        "pants",
+        "shorts",
+        "hats",
+        "socks",
+        "shoes",
+      ], // Example categories
     },
     imageURL: {
       type: String,

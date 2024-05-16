@@ -3,7 +3,9 @@ import {
   FETCH_PROFILE_FAILED,
   FETCH_PROFILE_SUCCESS,
   LOADING,
+  LOGIN_FAILED,
   LOGIN_SUCCESS,
+  RESET_ERROR,
 } from "./AuthProviderTypes";
 import { API_URL } from "@env";
 import { useNavigation } from "@react-navigation/native";
@@ -36,7 +38,11 @@ const reducer = (state, action) => {
       return {
         ...state,
         userAuth: payload,
+        error: null,
       };
+
+    case LOGIN_FAILED:
+      return { ...state, error: payload, loading: false };
     case FETCH_PROFILE_SUCCESS:
       return {
         ...state,
@@ -51,6 +57,11 @@ const reducer = (state, action) => {
         loading: false,
         profile: null,
       };
+    case RESET_ERROR:
+      return {
+        ...state,
+        error: payload,
+      };
     default:
       return state;
   }
@@ -60,24 +71,22 @@ const AuthContextProvider = ({ children }) => {
 
   const [state, dispatch] = useReducer(reducer, INITIAL_STATE);
   const loginUserAction = async (formData) => {
-    console.log(formData);
     const config = { headers: { "Content-Type": "application/json" } };
     try {
       dispatch({ type: LOADING, payload: true });
 
       const res = await axios.post(`${url}/login`, formData, config);
-      console.log(res);
       if (res?.data?.status == "Success") {
         dispatch({ type: LOGIN_SUCCESS, payload: res.data });
         navigator.navigate("Nav");
       }
       dispatch({ type: LOADING, payload: false });
     } catch (error) {
-      console.error(error);
+      console.log(error?.response?.data?.message);
+      dispatch({ type: LOGIN_FAILED, payload: error?.response?.data?.message });
     }
   };
   const getUserAction = async () => {
-    // console.log(state?.userAuth?.token);
     const config = {
       headers: {
         "Content-Type": "application/json",
@@ -102,10 +111,16 @@ const AuthContextProvider = ({ children }) => {
       });
     }
   };
+  //clear error message after 3 seconds
   useEffect(() => {
-    getUserAction();
-  }, []);
+    if (state?.error) {
+      const timer = setTimeout(() => {
+        dispatch({ type: RESET_ERROR, payload: null });
+      }, 3000); // Clear error after 3 seconds
 
+      return () => clearTimeout(timer); // Cleanup timer if component unmounts
+    }
+  }, [state?.error]);
   return (
     <authContext.Provider
       value={{

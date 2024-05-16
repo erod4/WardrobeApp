@@ -1,5 +1,3 @@
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import HomeScreen from "./screens/home/HomeScreen";
@@ -14,12 +12,22 @@ import SelectItemsPage from "./screens/SelectItems/SelectItemsPage";
 import LoginScreen from "./screens/Auth/login/LoginScreen";
 import RegisterScreen from "./screens/Auth/register/RegisterScreen";
 import AuthContextProvider from "./screens/Auth/AuthProvider/AuthProvider";
+import Photo from "./screens/Photo/Photo";
+import ImageCapture from "./screens/Photo/ImageCapture";
+import AlbumSingle from "./screens/Album/AlbumSingle";
+import { StyleSheet, StatusBar, Platform } from "react-native";
 
 export default function App() {
   const Stack = createNativeStackNavigator();
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
+      <StatusBar
+        barStyle={Platform.OS === "ios" ? "dark-content" : "default"}
+        hidden={false} // Ensure the status bar is visible
+        backgroundColor="transparent" // For Android to blend with the app background
+        translucent={true} // For Android to overlay the content
+      />
       <NavigationContainer>
         <AuthContextProvider>
           <AddToWardrobeContextProvider>
@@ -55,7 +63,9 @@ export default function App() {
               <Stack.Screen
                 name="Wardrobe"
                 component={WardrobeScreen}
-                options={{ title: "" }}
+                options={{
+                  title: "",
+                }}
               />
               <Stack.Screen
                 name="Nav"
@@ -72,7 +82,11 @@ export default function App() {
                 options={{
                   title: "",
                   headerRight: () => <DoneButton />,
-                  headerLeft: () => <ReturnButton />,
+                  headerLeft: () => <ReturnButton navTo={"Nav"} />,
+                  headerStyle: {
+                    backgroundColor: "transparent",
+                    borderBottomColor: "transparent", // Ensure the border color is also transparent
+                  },
                 }}
               />
               <Stack.Screen
@@ -82,6 +96,37 @@ export default function App() {
                   headerShown: true,
                   title: "Make A Selection",
                   headerBackVisible: true,
+                }}
+              />
+              <Stack.Screen
+                name="Photo"
+                component={Photo}
+                options={{
+                  headerShown: false,
+
+                  headerBackVisible: false,
+                }}
+              />
+              <Stack.Screen
+                name="Album_Single"
+                component={AlbumSingle}
+                options={{
+                  title: "Create Item",
+                  headerLeft: () => <ReturnButton navTo={"Nav"} />,
+                  headerStyle: {
+                    backgroundColor: "transparent",
+
+                    borderBottomColor: "transparent", // Ensure the border color is also transparent
+                  },
+                }}
+              />
+              <Stack.Screen
+                name="ImageCapture"
+                component={ImageCapture}
+                options={{
+                  headerShown: false,
+                  title: "",
+                  headerBackVisible: false,
                 }}
               />
             </Stack.Navigator>

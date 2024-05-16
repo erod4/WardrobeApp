@@ -38,13 +38,13 @@ const { width } = Dimensions.get("window");
 
 const styles = StyleSheet.create({
   container: {
-    justifyContent: "center",
     alignItems: "center",
-    height: "45%",
+    height: "60%",
+    width: "100%",
   },
   swiperContainer: {
-    // flex: 1,
-    backgroundColor: "white",
+    flex: 1,
+    backgroundColor: "#ddd",
   },
   containerTitle: {
     textAlign: "left",
@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
   child: {
     width: width,
     justifyContent: "center",
-    backgroundColor: "#ddd",
+    backgroundColor: "#fff",
     alignItems: "center",
   },
   text: {
@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     width: "90%",
     borderRadius: 10,
-    backgroundColor: "#fff",
+    backgroundColor: "#ddd",
     height: "100%",
   },
 });

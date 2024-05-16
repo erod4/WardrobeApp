@@ -12,31 +12,39 @@ const DATA = [
     title: "All",
   },
   {
-    id: 8,
+    id: 10,
     title: "Outfits",
   },
   {
     id: 2,
-    title: "Tops",
+    title: "Jackets",
   },
   {
     id: 3,
-    title: "Pants",
+    title: "T-Shirts",
   },
   {
     id: 4,
-    title: "Shorts",
+    title: "Shirts",
   },
   {
     id: 5,
-    title: "Hats",
+    title: "Pants",
   },
   {
     id: 6,
-    title: "Socks",
+    title: "Shorts",
   },
   {
     id: 7,
+    title: "Hats",
+  },
+  {
+    id: 8,
+    title: "Socks",
+  },
+  {
+    id: 9,
     title: "Shoes",
   },
 ];
@@ -84,7 +92,7 @@ const TopTabsScrollView = ({ setItem }) => {
 };
 const style = StyleSheet.create({
   TopTabScrollView: {},
-  Item: { paddingHorizontal: 5, paddingVertical: 3, margin: 5, width: 60 },
+  Item: { paddingHorizontal: 2, paddingVertical: 3, margin: 5, width: 60 },
   ItemTitle: { textAlign: "center" },
 });
 export default TopTabsScrollView;

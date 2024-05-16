@@ -1,19 +1,39 @@
-import { View, Text, Image, StyleSheet, Dimensions } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  Dimensions,
+  TouchableOpacity,
+} from "react-native";
 import React from "react";
+import { storeData } from "../GlobalHelperFunctions/GlobalHelperFunctions";
+import { useNavigation } from "@react-navigation/native";
 const screenWidth = Dimensions.get("window").width;
 
-const SingleItem = ({ name, image, id, category }) => {
+const SingleItem = ({ name, image, id, category, outfitPage }) => {
+  const navigator = useNavigation();
+  const handleOutfitItemPress = () => {
+    if (outfitPage) {
+      console.log(image);
+      storeData(name, image);
+      navigator.navigate("AddNewOutfit");
+    }
+  };
   return (
-    <View style={styles.clothingItem}>
+    <TouchableOpacity
+      style={styles.clothingItem}
+      onPress={handleOutfitItemPress}
+    >
       {/* <Text style={styles.title}>{name}</Text> */}
       <Image
         source={{ uri: image }}
         style={{
-          width: (screenWidth - 20) / 3,
-          height: (screenWidth - 20) / 3,
+          width: (screenWidth - 30) / 3,
+          height: (screenWidth - 30) / 3,
         }}
       />
-    </View>
+    </TouchableOpacity>
   );
 };
 const styles = StyleSheet.create({
@@ -22,7 +42,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#ddd",
-    borderRadius: 10,
+    borderRadius: 3,
   },
   title: {
     textAlign: "center",

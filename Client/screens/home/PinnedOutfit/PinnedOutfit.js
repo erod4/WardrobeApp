@@ -14,17 +14,18 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     height: "33%",
+    width: "90%",
   },
   title: {
     textAlign: "left",
-    width: "90%",
+    width: "100%",
     fontWeight: "700",
     fontSize: 15,
   },
   pinnedOutfit: {
-    width: "90%",
+    width: "100%",
     borderRadius: 10,
-    backgroundColor: "#fff",
+    backgroundColor: "#ddd",
     height: "100%",
   },
 });

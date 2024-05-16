@@ -35,11 +35,11 @@ const loginController = async (req, res, next) => {
   try {
     const userFound = await User.findOne({ phone });
     if (!userFound) {
-      next(new AppErr("Invalid Login Credentials", 400));
+      return next(new AppErr("Invalid Login Credentials", 400));
     }
     const passwordMatch = await bcrypt.compare(password, userFound.password);
     if (!passwordMatch) {
-      next(new AppErr("Invalid Login Credentials", 400));
+      return next(new AppErr("Invalid Login Credentials", 400));
     }
     res.json({
       status: "Success",
@@ -56,8 +56,7 @@ const loginController = async (req, res, next) => {
       Outfits: userFound.Outfits,
     });
   } catch (error) {
-    console.log(error);
-    next(new AppErr(error.message), 500);
+    return next(new AppErr(error.message, 500));
   }
 };
 const getUserController = async (req, res, next) => {
@@ -69,7 +68,7 @@ const getUserController = async (req, res, next) => {
 
     res.json(userFound);
   } catch (error) {
-    next(new AppErr(error.message, 500));
+    return next(new AppErr(error.message, 500));
   }
 };
 module.exports = { registerController, loginController, getUserController };

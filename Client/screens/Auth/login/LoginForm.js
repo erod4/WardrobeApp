@@ -15,7 +15,7 @@ import { formatPhoneNumber } from "../HelperFunctions";
 import { authContext } from "../AuthProvider/AuthProvider";
 
 const LoginForm = () => {
-  const { loginUserAction, loading } = useContext(authContext);
+  const { loginUserAction, error, loading } = useContext(authContext);
   const [formData, setFormData] = useState({ phone: "", password: "" });
   const handleInputChange = (field, value) => {
     if (field === "phone") {
@@ -58,6 +58,9 @@ const LoginForm = () => {
   const navToForgotPass = () => {};
   return (
     <View style={styles.form}>
+      {error && (
+        <Text style={{ color: "red", position: "relative" }}>{error}</Text>
+      )}
       <LoginFormInput
         name={"Phone Number"}
         icon={faPhone}
@@ -83,7 +86,7 @@ const LoginForm = () => {
       />
 
       <LoginButton
-        loading={loading ? false : false}
+        loading={loading}
         name={"Login"}
         disabled={loading ? false : false}
         onPress={handleFormSubmit}

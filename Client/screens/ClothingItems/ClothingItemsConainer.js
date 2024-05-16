@@ -1,24 +1,34 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, ScrollView } from "react-native";
 import React from "react";
 import SingleItem from "./SingleItem";
 
-const ClothingItemsConainer = ({ clothingItems }) => {
+const ClothingItemsConainer = ({ clothingItems, name, outfitPage }) => {
   return (
-    <View style={styles.container}>
+    <ScrollView
+      style={styles.container}
+      contentContainerStyle={{
+        justifyContent: "flex-start",
+        flexDirection: "row",
+        flexWrap: "wrap",
+        gap: 8,
+        alignItems: "flex-start",
+        paddingHorizontal: 5,
+      }}
+    >
       {clothingItems.map((item) => {
         return (
-          <SingleItem key={item.id} name={item.name} image={item.imageURL} />
+          <SingleItem
+            key={item.id}
+            name={name}
+            image={item.imageURL}
+            outfitPage={outfitPage}
+          />
         );
       })}
-    </View>
+    </ScrollView>
   );
 };
 const styles = StyleSheet.create({
-  container: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    justifyContent: "flex-start", // ensures items are aligned to the left
-    gap: 5, // padding around the entire container
-  },
+  container: { width: "100%" },
 });
 export default ClothingItemsConainer;

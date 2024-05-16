@@ -1,10 +1,10 @@
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import React from "react";
 import { useNavigation } from "@react-navigation/native";
-const ReturnButton = ({}) => {
+const ReturnButton = ({ navTo }) => {
   const navigation = useNavigation();
   const handlePress = () => {
-    navigation.goBack();
+    navigation.navigate(navTo);
   };
   return (
     <TouchableOpacity style={styles.DoneButton} onPress={handlePress}>

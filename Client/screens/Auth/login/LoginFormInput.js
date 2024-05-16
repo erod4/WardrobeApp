@@ -7,20 +7,15 @@ import {
 } from "react-native";
 import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import {
-  faEye,
-  faEyeSlash,
-  faPhone,
-  faUser,
-} from "@fortawesome/free-solid-svg-icons";
+import { fa0, fa1 } from "@fortawesome/free-solid-svg-icons";
 const LoginFormInput = ({
-  value,
-  name,
-  icon,
-  icon2,
+  value = "",
+  name = "",
+  icon = fa0,
+  icon2 = fa1,
   type,
   handleInputChange,
-  keyboard,
+  keyboard = "default",
 }) => {
   const [borderColor, setBorderColor] = useState("#000");
   const [secureText, setSecureText] = useState(
@@ -66,7 +61,7 @@ const LoginFormInput = ({
         >
           <FontAwesomeIcon
             icon={formIconPressed ? icon2 : icon}
-            color={borderColor}
+            style={{ color: borderColor }}
           />
         </TouchableOpacity>
       ) : (
@@ -77,7 +72,7 @@ const LoginFormInput = ({
             width: "10%",
           }}
         >
-          <FontAwesomeIcon icon={icon} color={borderColor} />
+          <FontAwesomeIcon icon={icon} style={{ color: borderColor }} />
         </View>
       )}
     </View>

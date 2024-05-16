@@ -6,25 +6,31 @@ import {
   faCloudSun,
   faSpinner,
   faCloudMoon,
+  faSun,
+  faMoon,
 } from "@fortawesome/free-solid-svg-icons";
 import { getTime, getDate, isDayTime } from "./TimeOfDay/TimeOfDay";
+import DailyForcast from "./WeatherScreen/DailyForcast";
 
 const WeatherSection = () => {
   const { dayOfMonth, monthName, dayName } = getDate();
-
+  const [isItDayTime, setIsItDayTime] = useState(null);
   const [weather, setWeather] = useState({
     conditions: "",
     temp: "",
     humidity: "",
-    icon: faSpinner,
+    icon: "",
     sunrise: "",
     sunset: "",
     datetime: "",
   });
-  const [icon, setIcon] = useState(weather.icon);
   const icons = {
-    "partly-cloudy-day": isDayTime(weather) ? faCloudSun : faCloudMoon,
+    "partly-cloudy-day": isItDayTime ? faCloudSun : faCloudMoon,
+    "clear-night": faMoon,
+    "clear-day": faSun,
   };
+  const [icon, setIcon] = useState(weather.icon);
+
   useEffect(() => {
     async function fetchData() {
       const data = await fetchWeatherData();
@@ -51,10 +57,25 @@ const WeatherSection = () => {
           <FontAwesomeIcon
             icon={icon ? icon : faCloudSun}
             size={30}
-            color="#fff"
+            color="#000"
           />
         </View>
       </View>
+      {/* <View
+        style={{
+          flexDirection: "row",
+          width: "100%",
+          justifyContent: "space-evenly",
+          padding: 5,
+        }}
+      >
+        <DailyForcast day={"Mon"} high={73.4} low={60.8} />
+        <DailyForcast day={"Tue"} high={73.4} low={60.8} />
+        <DailyForcast day={"Wed"} high={73.4} low={60.8} />
+        <DailyForcast day={"Thu"} high={73.4} low={60.8} />
+        <DailyForcast day={"Fri"} high={73.4} low={60.8} />
+        <DailyForcast day={"Sat"} high={73.4} low={60.8} last={true} />
+      </View> */}
     </View>
   );
 };
@@ -62,14 +83,20 @@ const styles = StyleSheet.create({
   container: {
     justifyContent: "center",
     alignItems: "center",
-  },
-  weather: {
     backgroundColor: "#7678ed",
     width: "90%",
     borderRadius: 10,
+    flexDirection: "column",
+  },
+  weather: {
+    backgroundColor: "#7678ed",
+    width: "100%",
     padding: 5,
+    borderRadius: 10,
     justifyContent: "space-between",
     flexDirection: "row",
+    borderBottomWidth: 1,
+    borderBottomColor: "#fff",
   },
   leftWeatherContainer: {
     justifyContent: "center",
@@ -80,14 +107,16 @@ const styles = StyleSheet.create({
   },
 
   weatherConditions: {
-    fontSize: 10,
-    fontWeight: "500",
+    fontSize: 12,
+    fontWeight: "600",
     color: "#fff",
+    fontFamily: "Arial Rounded MT Bold",
   },
   weatherTemp: {
-    fontSize: 25,
+    fontSize: 22,
     fontWeight: "700",
     color: "#fff",
+    fontFamily: "Arial Rounded MT Bold",
   },
   centerWeatherContainer: {
     flexDirection: "row",
@@ -95,12 +124,18 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   dateText: {
-    fontWeight: "700",
+    fontWeight: "900",
     color: "#fff",
+    fontSize: 16,
+    fontFamily: "Arial Rounded MT Bold",
   },
   rightWeatherContainer: {
     justifyContent: "center",
     alignItems: "center",
+    borderRadius: 100,
+    backgroundColor: "#fff",
+    width: 40,
+    height: 40,
   },
 });
 export default WeatherSection;

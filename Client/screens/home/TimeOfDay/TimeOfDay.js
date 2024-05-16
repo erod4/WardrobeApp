@@ -18,6 +18,7 @@ const getDate = () => {
 };
 
 const isDayTime = (weather) => {
+  console.log(weather);
   // Assuming 'weather.datetime' only contains time as "HH:mm:ss"
   // and we're using the current date for the comparison
   const now = new Date();
@@ -36,6 +37,7 @@ const isDayTime = (weather) => {
   //   );
 
   // Check if the current time is between sunrise and sunset
+
   return (
     currentDateTime >= sunriseDateTime && currentDateTime <= sunsetDateTime
   );
