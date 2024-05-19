@@ -9,7 +9,7 @@ const app = express();
 // require("./Config/AWS/S3");
 //--------------------------------database-------------------------------//
 require("./Config/dbConnect");
-const port = 8080;
+const port = process.env.PORT || 8080;
 //--------------------------------middleware----------------------------//
 app.use(express.json());
 app.use(cors());
