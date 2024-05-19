@@ -132,8 +132,7 @@ const styles = StyleSheet.create({
   rightWeatherContainer: {
     justifyContent: "center",
     alignItems: "center",
-    borderRadius: 100,
-    backgroundColor: "#fff",
+
     width: 40,
     height: 40,
   },

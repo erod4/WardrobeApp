@@ -121,6 +121,7 @@ const AuthContextProvider = ({ children }) => {
       return () => clearTimeout(timer); // Cleanup timer if component unmounts
     }
   }, [state?.error]);
+
   return (
     <authContext.Provider
       value={{

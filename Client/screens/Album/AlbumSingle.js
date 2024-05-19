@@ -6,8 +6,9 @@ import {
   TouchableOpacity,
   KeyboardAvoidingView,
   Platform,
+  Alert,
 } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import * as ImagePicker from "expo-image-picker";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import {
@@ -16,8 +17,20 @@ import {
   faPenToSquare,
 } from "@fortawesome/free-solid-svg-icons";
 import AddClothingItemForm from "./AddClothingItemForm";
+import { addClothingItemContext } from "./AddClothingItemContextProvider/AddClothingItemContext";
+import { err } from "react-native-svg";
 
 const AlbumSingle = ({ route }) => {
+  const { createPressed } = useContext(addClothingItemContext);
+  const [category, setCategory] = useState("Hats");
+  const [type, setType] = useState("Baseball-Cap");
+  const [formData, setFormData] = useState({
+    image: null,
+    name: null,
+    category: category,
+    type: type,
+  });
+
   const { photo, copiedImage } = route.params;
   const [image, setImage] = useState(null);
 
@@ -46,6 +59,50 @@ const AlbumSingle = ({ route }) => {
       setImage(copiedImage.data);
     }
   }, []);
+  // Update formData whenever category changes
+  useEffect(() => {
+    console.log("category changed to:", category);
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      category: category,
+    }));
+  }, [category]);
+
+  // Update formData whenever type changes
+  useEffect(() => {
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      type: type,
+    }));
+  }, [type]);
+
+  // Update formData whenever image changes
+  useEffect(() => {
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      image: image,
+    }));
+  }, [image]);
+
+  useEffect(() => {
+    //check to see if create button is pressed and submit form data
+    if (createPressed) {
+      if (
+        !formData.image ||
+        !formData.name ||
+        !formData.category ||
+        !formData.type
+      ) {
+        Alert.alert(
+          "Required Fields Missing",
+          "Please complete all required fields before proceeding."
+        );
+      } else {
+        //submit form data
+      }
+    }
+  }, [createPressed]);
+
   return (
     <KeyboardAvoidingView
       style={styles.container}
@@ -64,7 +121,10 @@ const AlbumSingle = ({ route }) => {
           <FontAwesomeIcon icon={faPenToSquare} style={{ color: "#3d348b" }} />
         </TouchableOpacity>
       </View>
-      <AddClothingItemForm />
+      <AddClothingItemForm
+        setCategoryFormData={setCategory}
+        setTypeFormData={setType}
+      />
     </KeyboardAvoidingView>
   );
 };

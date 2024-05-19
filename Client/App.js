@@ -16,6 +16,9 @@ import Photo from "./screens/Photo/Photo";
 import ImageCapture from "./screens/Photo/ImageCapture";
 import AlbumSingle from "./screens/Album/AlbumSingle";
 import { StyleSheet, StatusBar, Platform } from "react-native";
+import CreateButton from "./screens/nav/CreateButton";
+import AddClothingItemContextProvider from "./screens/Album/AddClothingItemContextProvider/AddClothingItemContext";
+import SettingsScreen from "./screens/Settings/SettingsScreen";
 
 export default function App() {
   const Stack = createNativeStackNavigator();
@@ -30,107 +33,122 @@ export default function App() {
       />
       <NavigationContainer>
         <AuthContextProvider>
-          <AddToWardrobeContextProvider>
-            <Stack.Navigator initialRouteName="Login">
-              <Stack.Screen
-                name="Login"
-                component={LoginScreen}
-                options={{
-                  headerShown: false,
-                  title: "Login",
-                  headerBackVisible: false,
-                }}
-              />
-              <Stack.Screen
-                name="Register"
-                component={RegisterScreen}
-                options={{
-                  headerShown: false,
-                  title: "Register",
-                  headerBackVisible: (
-                    <Stack.Screen
-                      name="Login"
-                      component={LoginScreen}
-                      options={{
-                        headerShown: false,
-                        title: "Login",
-                        headerBackVisible: false,
-                      }}
-                    />
-                  ),
-                }}
-              />
-              <Stack.Screen
-                name="Wardrobe"
-                component={WardrobeScreen}
-                options={{
-                  title: "",
-                }}
-              />
-              <Stack.Screen
-                name="Nav"
-                component={BottomTabs}
-                options={{
-                  headerShown: false,
-                  title: "Home",
-                  headerBackVisible: true,
-                }}
-              />
-              <Stack.Screen
-                name="AddNewOutfit"
-                component={AddNewOutfit}
-                options={{
-                  title: "",
-                  headerRight: () => <DoneButton />,
-                  headerLeft: () => <ReturnButton navTo={"Nav"} />,
-                  headerStyle: {
-                    backgroundColor: "transparent",
-                    borderBottomColor: "transparent", // Ensure the border color is also transparent
-                  },
-                }}
-              />
-              <Stack.Screen
-                name="SelectItemsPage"
-                component={SelectItemsPage}
-                options={{
-                  headerShown: true,
-                  title: "Make A Selection",
-                  headerBackVisible: true,
-                }}
-              />
-              <Stack.Screen
-                name="Photo"
-                component={Photo}
-                options={{
-                  headerShown: false,
+          <AddClothingItemContextProvider>
+            <AddToWardrobeContextProvider>
+              <Stack.Navigator initialRouteName="Login">
+                <Stack.Screen
+                  name="Login"
+                  component={LoginScreen}
+                  options={{
+                    headerShown: false,
+                    title: "Login",
+                    headerBackVisible: false,
+                  }}
+                />
+                <Stack.Screen
+                  name="Register"
+                  component={RegisterScreen}
+                  options={{
+                    headerShown: false,
+                    title: "Register",
+                    headerBackVisible: (
+                      <Stack.Screen
+                        name="Login"
+                        component={LoginScreen}
+                        options={{
+                          headerShown: false,
+                          title: "Login",
+                          headerBackVisible: false,
+                        }}
+                      />
+                    ),
+                  }}
+                />
+                <Stack.Screen
+                  name="Wardrobe"
+                  component={WardrobeScreen}
+                  options={{
+                    title: "",
+                  }}
+                />
+                <Stack.Screen
+                  name="Nav"
+                  component={BottomTabs}
+                  options={{
+                    headerShown: false,
+                    title: "Home",
+                    headerBackVisible: true,
+                  }}
+                />
+                <Stack.Screen
+                  name="AddNewOutfit"
+                  component={AddNewOutfit}
+                  options={{
+                    title: "",
+                    headerShadowVisible: false,
+                    headerRight: () => <DoneButton />,
+                    headerLeft: () => <ReturnButton navTo={"Nav"} />,
+                    headerStyle: {
+                      backgroundColor: "#fff",
+                    },
+                  }}
+                />
+                <Stack.Screen
+                  name="SelectItemsPage"
+                  component={SelectItemsPage}
+                  options={{
+                    headerShown: true,
+                    title: "Make A Selection",
+                    headerBackVisible: true,
+                  }}
+                />
+                <Stack.Screen
+                  name="Photo"
+                  component={Photo}
+                  options={{
+                    headerShown: false,
 
-                  headerBackVisible: false,
-                }}
-              />
-              <Stack.Screen
-                name="Album_Single"
-                component={AlbumSingle}
-                options={{
-                  title: "Create Item",
-                  headerLeft: () => <ReturnButton navTo={"Nav"} />,
-                  headerStyle: {
-                    backgroundColor: "transparent",
+                    headerBackVisible: false,
+                  }}
+                />
+                <Stack.Screen
+                  name="Settings"
+                  component={SettingsScreen}
+                  options={{
+                    headerShown: true,
+                    headerShadowVisible: false,
 
-                    borderBottomColor: "transparent", // Ensure the border color is also transparent
-                  },
-                }}
-              />
-              <Stack.Screen
-                name="ImageCapture"
-                component={ImageCapture}
-                options={{
-                  headerShown: false,
-                  title: "",
-                  headerBackVisible: false,
-                }}
-              />
-            </Stack.Navigator>
-          </AddToWardrobeContextProvider>
+                    title: "Settings",
+                    headerLeft: () => <ReturnButton navTo={"Nav"} />,
+                    headerBackVisible: false,
+                  }}
+                />
+                <Stack.Screen
+                  name="Album_Single"
+                  component={AlbumSingle}
+                  options={{
+                    title: "Create Item",
+                    headerLeft: () => <ReturnButton navTo={"Nav"} />,
+                    headerRight: () => <CreateButton />,
+                    headerShadowVisible: false,
+
+                    headerStyle: {
+                      backgroundColor: "#fff",
+                    },
+                  }}
+                />
+                <Stack.Screen
+                  name="ImageCapture"
+                  component={ImageCapture}
+                  options={{
+                    headerShown: false,
+                    title: "",
+                    headerBackVisible: false,
+                  }}
+                />
+              </Stack.Navigator>
+            </AddToWardrobeContextProvider>
+          </AddClothingItemContextProvider>
         </AuthContextProvider>
       </NavigationContainer>
     </GestureHandlerRootView>

@@ -46,6 +46,7 @@ const BottomTabs = () => {
             ),
             tabBarButton: () => (
               <AddToWardrobeButton
+                mode={1}
                 width={65}
                 height={65}
                 onPress={() => {

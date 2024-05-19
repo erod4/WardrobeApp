@@ -2,7 +2,7 @@ import { View, Text, StyleSheet } from "react-native";
 import React, { useState } from "react";
 import ClothingItemFormOption from "./ClothingItemFormOption";
 
-const AddClothingItemForm = () => {
+const AddClothingItemForm = ({ setCategoryFormData, setTypeFormData }) => {
   const typesHats = ["Baseball-Cap", "Bucket Hat", "Fitted"];
   const typesTops = ["Jacket", "Shirt", "T-Shirt"];
   const typesBottoms = ["Pants", "Jeans", "Shorts"];
@@ -18,15 +18,23 @@ const AddClothingItemForm = () => {
   };
   const categories = ["Hats", "Tops", "Bottoms"];
   const onCategorySelect = (val) => {
+    console.log(val);
+    setCategoryFormData(val);
+
     if (val == "Hats") {
       onHatSelect();
+      setTypeFormData(typesHats[0]);
     } else if (val == "Tops") {
       onTopSelect();
+      setTypeFormData(typesTops[0]);
     } else if (val == "Bottoms") {
+      setTypeFormData(typesBottoms[0]);
       onBottomsSelect();
     }
   };
-  const onTypeSelect = () => {};
+  const onTypeSelect = (val) => {
+    setTypeFormData(val);
+  };
   return (
     <View style={styles.ClothingItemFormContainer}>
       <ClothingItemFormOption
