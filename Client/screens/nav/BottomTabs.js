@@ -1,27 +1,41 @@
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import * as Haptics from "expo-haptics";
 import HomeScreen from "../home/HomeScreen";
 import WardrobeScreen from "../wardrobe/WardrobeScreen";
 import AddToWardrobeButton from "./AddToWardrobeButton";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faPlus, faShirt, faHome } from "@fortawesome/free-solid-svg-icons";
+import {
+  faPlus,
+  faShirt,
+  faHome,
+  faCog,
+} from "@fortawesome/free-solid-svg-icons";
 import { addToWardrobeContext } from "../home/homeContextProviders/AddToWardrobeContextProvider";
 import BottomSheetModal from "../home/AddNew Cothing Items Bottom Sheet/BottomSheetModal";
-const Placeholder = () => null; // Or return minimal UI
+import SettingsScreen from "../Settings/SettingsScreen";
+import AddScreen from "../AddScreen/AddScreen";
+import { useTheme } from "../Theme/ThemeContext";
 
 const BottomTabs = () => {
-  const { isModalOpen, openBottomSheet, setModal } =
+  const { theme } = useTheme();
+  const { openBottomSheet, isBottomSheetOpen } =
     useContext(addToWardrobeContext);
+  const Placeholder = () => {
+    return null;
+  }; // Or return minimal UI
   const Tab = createBottomTabNavigator();
   return (
     <View style={{ flex: 1 }}>
       <Tab.Navigator
         screenOptions={{
-          tabBarActiveTintColor: "#7678ed",
-          tabBarInactiveTintColor: "#fff",
-          tabBarStyle: { backgroundColor: "#444" },
+          tabBarActiveTintColor: theme.colors.secondary_100,
+          tabBarInactiveTintColor: theme.colors.text_primary,
+          tabBarStyle: {
+            backgroundColor: theme.colors.primary_300,
+            borderTopColor: theme.colors.primary_200,
+          },
         }}
       >
         <Tab.Screen
@@ -32,30 +46,13 @@ const BottomTabs = () => {
             tabBarIcon: ({ focused }) => (
               <FontAwesomeIcon
                 icon={faHome}
-                color={focused ? "#7678ed" : "#fff"}
+                color={
+                  focused
+                    ? theme.colors.secondary_100
+                    : theme.colors.text_primary
+                }
               />
             ),
-          }}
-        />
-        <Tab.Screen
-          name="AddToWardrobe"
-          component={Placeholder}
-          options={{
-            tabBarIcon: ({ focused }) => (
-              <Text style={{ color: focused ? "#7DCEA0" : "#C8C8C8" }}>+</Text>
-            ),
-            tabBarButton: () => (
-              <AddToWardrobeButton
-                mode={1}
-                width={65}
-                height={65}
-                onPress={() => {
-                  setModal(true);
-                  Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
-                }}
-              />
-            ),
-            headerShown: false,
           }}
         />
 
@@ -67,13 +64,50 @@ const BottomTabs = () => {
             tabBarIcon: ({ focused }) => (
               <FontAwesomeIcon
                 icon={faShirt}
-                color={focused ? "#7678ed" : "#fff"}
+                color={
+                  focused
+                    ? theme.colors.secondary_100
+                    : theme.colors.text_primary
+                }
+              />
+            ),
+          }}
+        />
+        <Tab.Screen
+          name="Add"
+          component={AddScreen}
+          options={{
+            headerShown: false,
+            tabBarIcon: ({ focused }) => (
+              <FontAwesomeIcon
+                icon={faPlus}
+                color={
+                  focused
+                    ? theme.colors.secondary_100
+                    : theme.colors.text_primary
+                }
+              />
+            ),
+          }}
+        />
+        <Tab.Screen
+          name="Settings"
+          component={SettingsScreen}
+          options={{
+            headerShown: false,
+            tabBarIcon: ({ focused }) => (
+              <FontAwesomeIcon
+                icon={faCog}
+                color={
+                  focused
+                    ? theme.colors.secondary_100
+                    : theme.colors.text_primary
+                }
               />
             ),
           }}
         />
       </Tab.Navigator>
-      {openBottomSheet && <BottomSheetModal />}
     </View>
   );
 };

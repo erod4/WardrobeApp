@@ -8,6 +8,7 @@ import {
   RESET_ERROR,
 } from "./AuthProviderTypes";
 import { API_URL } from "@env";
+
 import { useNavigation } from "@react-navigation/native";
 
 import axios from "react-native-axios";
@@ -16,8 +17,8 @@ import {
   storeData,
 } from "../../GlobalHelperFunctions/GlobalHelperFunctions";
 
-const url = API_URL;
 export const authContext = createContext();
+const url = API_URL;
 const INITIAL_STATE = {
   userAuth: readData("userAuth") || null,
   error: null,
@@ -74,14 +75,15 @@ const AuthContextProvider = ({ children }) => {
     const config = { headers: { "Content-Type": "application/json" } };
     try {
       dispatch({ type: LOADING, payload: true });
-
-      const res = await axios.post(`${url}/login`, formData, config);
+      console.log(url);
+      const res = await axios.post(`${url}/users/login`, formData, config);
       if (res?.data?.status == "Success") {
         dispatch({ type: LOGIN_SUCCESS, payload: res.data });
         navigator.navigate("Nav");
       }
       dispatch({ type: LOADING, payload: false });
     } catch (error) {
+      console.log(error);
       console.log(error?.response?.data?.message);
       dispatch({ type: LOGIN_FAILED, payload: error?.response?.data?.message });
     }
@@ -96,7 +98,7 @@ const AuthContextProvider = ({ children }) => {
     try {
       dispatch({ type: LOADING, payload: true });
 
-      const res = await axios.get(`${url}/getUser`, config);
+      const res = await axios.get(`${url}/users/getUser`, config);
       if (res?.data) {
         dispatch({
           type: FETCH_PROFILE_SUCCESS,

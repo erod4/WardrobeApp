@@ -13,6 +13,7 @@ import React, { useEffect, useState } from "react";
 import { storeData } from "../GlobalHelperFunctions/GlobalHelperFunctions";
 import { useNavigation } from "@react-navigation/native";
 import { faCheck, faCircle } from "@fortawesome/free-solid-svg-icons";
+import { useTheme } from "../Theme/ThemeContext";
 const screenWidth = Dimensions.get("window").width;
 
 const SingleItem = ({
@@ -25,11 +26,11 @@ const SingleItem = ({
   setGlobalEditMode,
   handleItemPressed,
 }) => {
+  const { theme } = useTheme();
   const [itemPressed, setItemPressed] = useState(false);
   const navigator = useNavigation();
   const handleOutfitItemPress = () => {
     if (outfitPage) {
-      console.log(image);
       storeData(name, image);
       navigator.navigate("AddNewOutfit");
     }
@@ -52,7 +53,10 @@ const SingleItem = ({
     <>
       {globalEditMode ? (
         <TouchableOpacity
-          style={styles.clothingItem}
+          style={[
+            styles.clothingItem,
+            { backgroundColor: theme.colors.primary_300 },
+          ]}
           onPress={handleEditModeItemPress}
         >
           <View
@@ -83,7 +87,10 @@ const SingleItem = ({
         </TouchableOpacity>
       ) : (
         <TouchableOpacity
-          style={styles.clothingItem}
+          style={[
+            styles.clothingItem,
+            { backgroundColor: theme.colors.primary_300 },
+          ]}
           onPress={handleOutfitItemPress}
           onLongPress={handleLongPress}
         >

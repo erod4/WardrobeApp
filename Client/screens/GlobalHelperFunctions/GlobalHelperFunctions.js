@@ -26,7 +26,14 @@ export const clearData = async (key) => {
 export const allDeviceStorage = async () => {
   try {
     const keys = await AsyncStorage.getAllKeys();
-    console.log("All Device Storage", keys);
+    const stores = await AsyncStorage.multiGet(keys);
+
+    stores.forEach((store) => {
+      const [key, value] = store;
+      console.log(`Key: ${key}, Value: ${value}`);
+    });
+
+    console.log("All Device Storage", stores);
   } catch (error) {
     console.log("All Device Storage Error", error);
   }

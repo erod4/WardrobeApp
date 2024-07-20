@@ -13,8 +13,10 @@ import ActionButton from "./ActionButton";
 import { useNavigation } from "@react-navigation/native";
 import { formatPhoneNumber } from "../HelperFunctions";
 import { authContext } from "../AuthProvider/AuthProvider";
+import { useTheme } from "../../Theme/ThemeContext";
 
 const LoginForm = () => {
+  const { theme } = useTheme();
   const { loginUserAction, error, loading } = useContext(authContext);
   const [formData, setFormData] = useState({ phone: "", password: "" });
   const handleInputChange = (field, value) => {
@@ -59,7 +61,9 @@ const LoginForm = () => {
   return (
     <View style={styles.form}>
       {error && (
-        <Text style={{ color: "red", position: "relative" }}>{error}</Text>
+        <Text style={{ color: theme.colors.text_error, position: "relative" }}>
+          {error}
+        </Text>
       )}
       <LoginFormInput
         name={"Phone Number"}
@@ -79,8 +83,8 @@ const LoginForm = () => {
       />
       <ActionButton
         text={"Forgot my password"}
-        size={10}
-        color={"#555"}
+        size={theme.font_size.small}
+        color={theme.colors.text_primary}
         width={"80%"}
         onPress={navToForgotPass}
       />
@@ -92,13 +96,18 @@ const LoginForm = () => {
         onPress={handleFormSubmit}
       />
       <View style={styles.noAccountContainer}>
-        <Text style={{ fontSize: 15, color: "#555" }}>
+        <Text
+          style={{
+            fontSize: theme.font_size.medium,
+            color: theme.colors.text_primary,
+          }}
+        >
           Dont have an account?
         </Text>
         <ActionButton
           text={"Register"}
-          size={15}
-          color={"#3d348b"}
+          size={theme.font_size.medium}
+          color={theme.colors.secondary_200}
           onPress={navToRegister}
         />
       </View>

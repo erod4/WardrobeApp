@@ -30,7 +30,7 @@ const registerController = async (req, res, next) => {
 };
 
 const loginController = async (req, res, next) => {
-  // console.table(req.body);
+  console.table(req.body);
   const { phone, password } = req.body;
   try {
     const userFound = await User.findOne({ phone });

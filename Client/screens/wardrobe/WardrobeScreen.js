@@ -3,15 +3,19 @@ import React, { useContext, useEffect, useState } from "react";
 import TopTabsScrollView from "./TopTabsScrollView";
 import { authContext } from "../Auth/AuthProvider/AuthProvider";
 import ClothingItemsConainer from "../ClothingItems/ClothingItemsConainer";
+import { useTheme } from "../Theme/ThemeContext";
 
 const WardrobeScreen = () => {
   const { profile, getUserAction } = useContext(authContext);
+  const { theme } = useTheme();
   useEffect(() => {
     getUserAction();
   }, [profile]);
   const [category, setCategory] = useState(1);
   return (
-    <View style={style.outerScreen}>
+    <View
+      style={[style.outerScreen, { backgroundColor: theme.colors.primary_100 }]}
+    >
       <View style={style.innerScreen}>
         <TopTabsScrollView setItem={setCategory} />
       </View>
@@ -22,57 +26,29 @@ const WardrobeScreen = () => {
           )}
           {category == 2 && (
             <ClothingItemsConainer
-              clothingItems={profile?.clothingItems.filter(
-                (item) => item.category === "jackets"
+              clothingItems={profile?.clothingItems?.filter(
+                (item) => item.category === "Tops"
               )}
             />
           )}
           {category == 3 && (
             <ClothingItemsConainer
-              clothingItems={profile?.clothingItems.filter(
-                (item) => item.category === "t-shirts"
+              clothingItems={profile?.clothingItems?.filter(
+                (item) => item.category === "Bottoms"
               )}
             />
           )}
           {category == 4 && (
             <ClothingItemsConainer
-              clothingItems={profile?.clothingItems.filter(
-                (item) => item.category === "shirts"
+              clothingItems={profile?.clothingItems?.filter(
+                (item) => item.category === "shoes"
               )}
             />
           )}
           {category == 5 && (
             <ClothingItemsConainer
-              clothingItems={profile.clothingItems.filter(
-                (item) => item.category === "pants"
-              )}
-            />
-          )}
-          {category == 6 && (
-            <ClothingItemsConainer
-              clothingItems={profile.clothingItems.filter(
-                (item) => item.category === "shorts"
-              )}
-            />
-          )}
-          {category == 7 && (
-            <ClothingItemsConainer
-              clothingItems={profile?.clothingItems.filter(
-                (item) => item.category === "hats"
-              )}
-            />
-          )}
-          {category == 8 && (
-            <ClothingItemsConainer
-              clothingItems={profile?.clothingItems.filter(
-                (item) => item.category === "socks"
-              )}
-            />
-          )}
-          {category == 9 && (
-            <ClothingItemsConainer
-              clothingItems={profile?.clothingItems.filter(
-                (item) => item.category === "shoes"
+              clothingItems={profile.clothingItems?.filter(
+                (item) => item.category === "Hats"
               )}
             />
           )}

@@ -4,9 +4,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { addClothingItemContext } from "../Album/AddClothingItemContextProvider/AddClothingItemContext";
 
 const CreateButton = () => {
-  const { createButtonPressed } = useContext(addClothingItemContext);
+  const { createButtonPressed, navFrom, setNavFrom } = useContext(
+    addClothingItemContext
+  );
   const onPress = () => {
     createButtonPressed(true);
+    console.log("Came from ", navFrom, " Screen");
     setTimeout(() => {
       createButtonPressed(false);
     }, 3);

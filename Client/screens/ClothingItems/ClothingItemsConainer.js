@@ -6,12 +6,17 @@ import {
   TouchableOpacity,
   Alert,
 } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import SingleItem from "./SingleItem";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import { addClothingItemContext } from "../Album/AddClothingItemContextProvider/AddClothingItemContext";
+import Notification from "../Notification/Notification";
+import { useTheme } from "../Theme/ThemeContext";
 
 const ClothingItemsConainer = ({ clothingItems, name, outfitPage }) => {
+  const { theme } = useTheme();
+  const { deleteClothingItems, loading } = useContext(addClothingItemContext);
   const [itemsToDelete, setItemsToDelete] = useState({});
   const [editMode, setEditMode] = useState(false);
   const [itemsToDeleteSize, setItemsToDeleteSize] = useState(0);
@@ -30,7 +35,6 @@ const ClothingItemsConainer = ({ clothingItems, name, outfitPage }) => {
     const len = Object.keys(itemsToDelete).filter(
       (key) => itemsToDelete[key]
     ).length;
-    console.log(len);
     setItemsToDeleteSize(len);
   }, [itemsToDelete]);
 
@@ -62,7 +66,10 @@ const ClothingItemsConainer = ({ clothingItems, name, outfitPage }) => {
             text: "Confirm ",
             onPress: () => {
               const idsToDelete = filterItemsToDelete();
-              console.log("Delete these items: ", idsToDelete);
+              deleteClothingItems(idsToDelete);
+              setEditMode(false);
+              setItemsToDelete({});
+              setItemsToDeleteSize(0);
             },
           },
         ]
@@ -83,6 +90,22 @@ const ClothingItemsConainer = ({ clothingItems, name, outfitPage }) => {
           paddingHorizontal: 5,
         }}
       >
+        {loading && (
+          <View
+            style={{
+              width: "100%",
+              alignItems: "center",
+              justifyContent: "center",
+              zIndex: 1,
+            }}
+          >
+            <Notification
+              loading={loading}
+              message={"Deleting Items"}
+              type={3}
+            />
+          </View>
+        )}
         {clothingItems.map((item) => {
           return (
             <SingleItem
@@ -128,7 +151,7 @@ const ClothingItemsConainer = ({ clothingItems, name, outfitPage }) => {
   );
 };
 const styles = StyleSheet.create({
-  container: { width: "100%" },
+  container: { width: "100%", marginBottom: "30%" },
   editModeContainer: {
     position: "absolute",
     bottom: "18%",
@@ -140,6 +163,7 @@ const styles = StyleSheet.create({
     height: 40,
     justifyContent: "center",
     alignItems: "center",
+    backgroundColor: "#fff",
     paddingHorizontal: 5,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 0 },

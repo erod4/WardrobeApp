@@ -6,24 +6,8 @@ import { authContext } from "../Auth/AuthProvider/AuthProvider";
 import ClothingItemsConainer from "../ClothingItems/ClothingItemsConainer";
 
 const getCategoryItems = (categoryName, profile) => {
-  //this function filters all clohing category items together
-  const map = {
-    Hat: "hats",
-    Top: ["t-shirts", "shirts", "jackets"],
-    Bottoms: ["shorts", "pants"],
-    Shoes: "shoes",
-  };
-
-  const category = map[categoryName];
-
-  //check to see if category is an array or string
-  if (Array.isArray(category)) {
-    return profile.clothingItems.filter((item) =>
-      category.includes(item.category)
-    );
-  } else {
-    return profile.clothingItems.filter((item) => item.category === category);
-  }
+  console.log(profile.clothingItems[0].category);
+  return profile.clothingItems.filter((item) => item.category === categoryName);
 };
 
 const SelectItemsPage = ({ route }) => {

@@ -8,6 +8,8 @@ import {
 import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { fa0, fa1 } from "@fortawesome/free-solid-svg-icons";
+import { useTheme } from "../../Theme/ThemeContext";
+
 const LoginFormInput = ({
   value = "",
   name = "",
@@ -17,7 +19,8 @@ const LoginFormInput = ({
   handleInputChange,
   keyboard = "default",
 }) => {
-  const [borderColor, setBorderColor] = useState("#000");
+  const { theme } = useTheme();
+  const [borderColor, setBorderColor] = useState(theme.colors.border);
   const [secureText, setSecureText] = useState(
     type == "password" ? true : false
   );
@@ -27,20 +30,41 @@ const LoginFormInput = ({
     setSecureText(!secureText);
   };
   const onFocus = () => {
-    setBorderColor("#3d348b");
+    setBorderColor(theme.colors.secondary_200);
   };
 
   const onEndFocus = () => {
-    setBorderColor("#000");
+    setBorderColor(theme.colors.border);
   };
   return (
-    <View style={[styles.formInputContainer, { borderColor: borderColor }]}>
+    <View
+      style={[
+        styles.formInputContainer,
+        { borderColor: borderColor, backgroundColor: theme.colors.primary_300 },
+      ]}
+    >
       <View style={styles.formInputInnerContainer}>
-        <Text style={styles.formInputTitle}>{name}</Text>
+        <Text
+          style={[
+            {
+              fontWeight: theme.font.bold,
+              color: theme.colors.text_primary,
+              fontSize: theme.font_size.small,
+            },
+          ]}
+        >
+          {name}
+        </Text>
         <TextInput
           maxLength={type == "phone" ? 10 : 35}
           value={value}
-          style={styles.formInput}
+          style={[
+            styles.formInput,
+            {
+              fontSize: theme.font_size.medium,
+              color: theme.colors.text_primary,
+            },
+          ]}
           onFocus={onFocus}
           onEndEditing={onEndFocus}
           keyboardType={keyboard ? keyboard : "default"}
@@ -87,19 +111,14 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     height: "13%",
-    backgroundColor: "#ddd",
   },
-  formInputTitle: {
-    fontSize: 10,
-    fontWeight: "700",
-  },
+
   formInputInnerContainer: {
     flexDirection: "column",
     width: "90%",
   },
   formInput: {
     width: "100%",
-    fontSize: 15,
   },
 });
 export default LoginFormInput;

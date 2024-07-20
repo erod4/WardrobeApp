@@ -1,18 +1,25 @@
 import {
-  View,
   Text,
   StyleSheet,
   TouchableOpacity,
   ActivityIndicator,
 } from "react-native";
 import React from "react";
+import { useTheme } from "../../Theme/ThemeContext";
 
 const LoginButton = ({ name, onPress, disabled, height, loading }) => {
+  const { theme } = useTheme();
   return (
     <TouchableOpacity
       onPress={onPress}
       disabled={disabled}
-      style={[styles.button, { height: height ? height : "15%" }]}
+      style={[
+        styles.button,
+        {
+          height: height ? height : "15%",
+          backgroundColor: theme.colors.secondary_100,
+        },
+      ]}
     >
       {loading ? (
         <ActivityIndicator />

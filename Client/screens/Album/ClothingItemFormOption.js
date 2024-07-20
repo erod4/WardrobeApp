@@ -1,5 +1,5 @@
 import { View, Text, TextInput, StyleSheet } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import Dropdown from "./Dropdown";
 
 const ClothingItemFormOption = ({
@@ -8,13 +8,26 @@ const ClothingItemFormOption = ({
   type,
   options,
   onSelect,
+  setName,
 }) => {
+  const [descr, setDescr] = useState(null);
+
+  const handleInputChange = (text) => {
+    setName(text);
+    setDescr(text);
+  };
+
   return (
     <View style={[styles.ClothingItemFormOptionContainer, {}]}>
       <Text style={styles.text}>{name}</Text>
 
       {type === 1 ? (
-        <TextInput style={styles.textInput} placeholder={placeholder} />
+        <TextInput
+          style={styles.textInput}
+          placeholder={placeholder}
+          onChangeText={handleInputChange}
+          value={descr}
+        />
       ) : (
         <Dropdown
           onSelect={onSelect}
@@ -46,9 +59,12 @@ const styles = StyleSheet.create({
     textAlignVertical: "center", // Center text vertically
   },
   textInput: {
-    width: "50%",
+    width: "60%",
     height: "100%",
     textAlign: "justify",
+    fontSize: 16,
+    fontWeight: "700",
+    color: "#333",
   },
 });
 

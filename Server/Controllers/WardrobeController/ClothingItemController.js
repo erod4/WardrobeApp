@@ -1,12 +1,15 @@
+const { mongoose } = require("mongoose");
 const { uploadToS3, deleteFromS3 } = require("../../Config/AWS/S3");
 const sendImage = require("../../Config/ImgProcessing/ImgProc");
 const User = require("../../Models/UsersModel/UserModel");
 const ClothingItem = require("../../Models/WardrobeModel/ClothingItemsModel");
 const AppErr = require("../../Utils/AppError");
 
+const { ObjectId } = mongoose.Types;
+
 const createClothingItem = async (req, res, next) => {
   try {
-    const { name, category } = req.body;
+    const { name, category, type } = req.body;
     //get user id from req
     const id = req.user;
     //get user from db using id
@@ -27,6 +30,7 @@ const createClothingItem = async (req, res, next) => {
     const clothing_item = await ClothingItem.create({
       name,
       category,
+      type,
       imageURL: url,
       userId: id,
     });
@@ -36,6 +40,7 @@ const createClothingItem = async (req, res, next) => {
 
     res.json({ status: "Success", data: clothing_item });
   } catch (error) {
+    console.log(error);
     next(new AppErr(error.message, 500));
   }
 };
@@ -111,19 +116,20 @@ const updateClothingItem = async (req, res, next) => {
 };
 
 const deleteClothingItem = async (req, res, next) => {
-  const { cloth_id } = req.body;
+  const { item_id } = req.params;
+  console.table(req.params);
+
   try {
     const id = req.user;
     const userFound = await User.findById(id);
     if (!userFound) {
       next(new AppErr("User Not Found", 400));
     }
-    if (!cloth_id) {
+    if (!item_id) {
       next(new AppErr("Clothing Item Not Found", 400));
     }
     //delete image from s3
-    const item = await ClothingItem.findById(cloth_id);
-
+    const item = await ClothingItem.findById(item_id);
     const key = item.imageURL;
 
     const image_data = await deleteFromS3(key);
@@ -131,15 +137,16 @@ const deleteClothingItem = async (req, res, next) => {
       next(new AppErr("S3 Bucket Delete Unsucessful", 500));
     }
     //delete image from db
-    const deletedItem = await ClothingItem.findByIdAndDelete(cloth_id);
+    const deletedItem = await ClothingItem.findByIdAndDelete(item_id);
     userFound.clothingItems = userFound.clothingItems.filter(
-      (id) => id.toString() !== cloth_id
+      (id) => id.toString() !== item_id
     );
     console.log(userFound.clothingItems);
     await userFound.save();
     //respond
     res.json({ status: "Success" });
   } catch (error) {
+    console.log(error);
     next(new AppErr(error.message, 500));
   }
 };

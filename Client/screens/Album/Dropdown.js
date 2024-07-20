@@ -72,7 +72,7 @@ const Dropdown = ({ options, onSelect, placeholder }) => {
 
 const styles = StyleSheet.create({
   container: {
-    width: "50%",
+    width: "60%",
     justifyContent: "center",
     alignItems: "flex-end",
     height: "100%",
@@ -87,6 +87,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: "#333",
     textAlign: "center",
+    fontWeight: "700",
   },
   modalOverlay: {
     flex: 1,

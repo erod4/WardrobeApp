@@ -35,7 +35,7 @@ clothingItemRoute.put(
   updateClothingItem
 );
 clothingItemRoute.delete(
-  "/",
+  "/:item_id",
   isLoggedIn,
   upload.single("image"),
   deleteClothingItem

@@ -10,8 +10,11 @@ import {
 import ActionButton from "../login/ActionButton";
 import { useNavigation } from "@react-navigation/native";
 import LoginButton from "../login/LoginButton";
+import { useTheme } from "../../Theme/ThemeContext";
 
 const RegisterForm = () => {
+  const { theme } = useTheme();
+
   const navigator = useNavigation();
   const navToLogin = () => {
     navigator.navigate("Login");
@@ -28,13 +31,18 @@ const RegisterForm = () => {
       />
       <LoginButton name={"Sign Up"} disabled={true} height={"13%"} />
       <View style={styles.noAccountContainer}>
-        <Text style={{ fontSize: 15, color: "#555" }}>
+        <Text
+          style={{
+            fontSize: theme.font_size.medium,
+            color: theme.colors.text_primary,
+          }}
+        >
           Already have an account?
         </Text>
         <ActionButton
           text={"Login"}
-          size={15}
-          color={"#3d348b"}
+          size={theme.font_size.medium}
+          color={theme.colors.secondary_200}
           onPress={navToLogin}
         />
       </View>

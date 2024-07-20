@@ -1,5 +1,4 @@
 import { Alert } from "react-native";
-import { options } from "../AddToWardrobeModal/WadrobeMenuOptions";
 import { authContext } from "../../Auth/AuthProvider/AuthProvider";
 
 const { useContext, createContext, useReducer, useEffect } = require("react");
@@ -13,33 +12,25 @@ const {
 export const addToWardrobeContext = createContext();
 
 const INITIAL_STATE = {
-  isModalOpen: false,
   navToNewOutfit: false,
-  openBottomSheet: false,
+  isBottomSheetOpen: false,
 };
 
 const reducer = (state, action) => {
   const { type, payload } = action;
   switch (type) {
-    case SET_MODAL:
-      return {
-        ...state,
-        isModalOpen: payload,
-      };
     case NEW_OUTFIT_PRESS:
       return {
         ...state,
-        isModalOpen: payload?.isModalOpen,
-        navToNewOutfit: payload?.navToNewOutfit,
+        navToNewOutfit: payload,
       };
     case NEW_CLOTHING_ITEM_PRESS:
       return {
         ...state,
-        isModalOpen: payload?.isModalOpen,
-        openBottomSheet: payload?.openBottomSheet,
+        isBottomSheetOpen: payload,
       };
     case CLOSE_BOTTOM_SHEET:
-      return { ...state, openBottomSheet: payload };
+      return { ...state, isBottomSheetOpen: payload };
     default:
       return state;
   }
@@ -47,14 +38,11 @@ const reducer = (state, action) => {
 const AddToWardrobeContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, INITIAL_STATE);
 
-  const setModal = (action) => {
-    if (action) {
-      dispatch({
-        type: SET_MODAL,
-        payload: action,
-      });
-      options(setModal, dispatch);
-    }
+  const openBottomSheet = () => {
+    dispatch({
+      type: NEW_CLOTHING_ITEM_PRESS,
+      payload: true,
+    });
   };
   const closeBottomSheet = () => {
     dispatch({
@@ -62,14 +50,27 @@ const AddToWardrobeContextProvider = ({ children }) => {
       payload: false,
     });
   };
+  const newOutfitPress = () => {
+    dispatch({
+      type: NEW_OUTFIT_PRESS,
+      payload: true,
+    });
+  };
+  const endNewOutfitNav = () => {
+    dispatch({
+      type: NEW_OUTFIT_PRESS,
+      payload: false,
+    });
+  };
   return (
     <addToWardrobeContext.Provider
       value={{
-        setModal,
-        isModalOpen: state?.isModalOpen,
         navToNewOutfit: state?.navToNewOutfit,
-        openBottomSheet: state?.openBottomSheet,
+        isBottomSheetOpen: state?.isBottomSheetOpen,
         closeBottomSheet,
+        openBottomSheet,
+        newOutfitPress,
+        endNewOutfitNav,
       }}
     >
       {children}

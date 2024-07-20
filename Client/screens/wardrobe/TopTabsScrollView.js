@@ -6,56 +6,47 @@ import {
   StyleSheet,
 } from "react-native";
 import React, { useState } from "react";
+import { useTheme } from "../Theme/ThemeContext";
+
 const DATA = [
   {
     id: 1,
     title: "All",
   },
   {
-    id: 10,
+    id: 6,
     title: "Outfits",
   },
   {
-    id: 2,
-    title: "Jackets",
-  },
-  {
-    id: 3,
-    title: "T-Shirts",
-  },
-  {
-    id: 4,
-    title: "Shirts",
-  },
-  {
     id: 5,
-    title: "Pants",
-  },
-  {
-    id: 6,
-    title: "Shorts",
-  },
-  {
-    id: 7,
     title: "Hats",
   },
   {
-    id: 8,
-    title: "Socks",
+    id: 2,
+    title: "Tops",
   },
   {
-    id: 9,
+    id: 3,
+    title: "Bottoms",
+  },
+  {
+    id: 4,
     title: "Shoes",
   },
 ];
 const Item = ({ item, onPress, backgroundColor, textColor }) => {
-  const isActive = textColor == "black" ? true : false;
+  const { theme } = useTheme();
+  const isActive = textColor == theme.colors.text_secondary ? true : false;
   return (
     <TouchableOpacity
       onPress={onPress}
       style={[
-        { backgroundColor: "#fff", borderBottomWidth: isActive ? 1.5 : 0 },
         style.Item,
+        {
+          backgroundColor: backgroundColor,
+          borderBottomWidth: isActive ? 1.5 : 0,
+          borderColor: theme.colors.border,
+        },
       ]}
     >
       <Text style={[{ color: textColor }, style.ItemTitle]}>{item.title}</Text>
@@ -63,9 +54,13 @@ const Item = ({ item, onPress, backgroundColor, textColor }) => {
   );
 };
 const TopTabsScrollView = ({ setItem }) => {
+  const { theme } = useTheme();
   const [selectedId, setSelectedId] = useState(DATA[0].id);
   const renderItem = ({ item }) => {
-    const textColor = item.id === selectedId ? "black" : "grey";
+    const textColor =
+      item.id === selectedId
+        ? theme.colors.text_secondary
+        : theme.colors.text_primary;
     return (
       <Item
         item={item}

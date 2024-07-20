@@ -13,9 +13,11 @@ import {
 } from "../GlobalHelperFunctions/GlobalHelperFunctions";
 
 const ClothingItems = () => {
+  const [formData, setFormData] = useState([]);
+
   const clothingItemNames = [
-    { name: "Hat", height: "15%", width: "25%" },
-    { name: "Top", height: "23%", width: "35%" },
+    { name: "Hats", height: "15%", width: "25%" },
+    { name: "Tops", height: "23%", width: "35%" },
     { name: "Bottoms", height: "30%", width: "35%" },
     { name: "Shoes", height: "15%", width: "25%" },
   ];
@@ -119,10 +121,11 @@ const style = StyleSheet.create({
   },
   clearItem: {
     position: "absolute",
+    borderRadius: 100,
+    backgroundColor: "#fff",
     left: -10,
     top: -10,
-    width: 30,
-    height: 30,
+
     justifyContent: "center",
     alignItems: "center",
 

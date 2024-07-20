@@ -1,14 +1,31 @@
-import { View, Text, StyleSheet, Dimensions } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Dimensions,
+  ImageBackground,
+} from "react-native";
 import React from "react";
-import { SwiperFlatList } from "react-native-swiper-flatlist";
 import { SwiperFlatListWithGestureHandler } from "react-native-swiper-flatlist/WithGestureHandler";
+import { useTheme } from "../../Theme/ThemeContext";
 
 const RecentOutfits = () => {
   const colors = ["tomato", "thistle", "skyblue", "teal"];
-
+  const { theme } = useTheme();
   return (
     <View style={styles.container}>
-      <Text style={styles.containerTitle}>Recent Outfits</Text>
+      <Text
+        style={[
+          styles.containerTitle,
+          {
+            color: theme.colors.text_primary,
+            fontWeight: theme.font.bold,
+            fontSize: theme.font_size.medium,
+          },
+        ]}
+      >
+        Recent Outfits
+      </Text>
 
       <View style={styles.recent}>
         <View style={styles.swiperContainer}>
@@ -18,12 +35,23 @@ const RecentOutfits = () => {
             autoplayLoop
             index={0}
             showPagination
-            paginationActiveColor={"#000"}
+            paginationDefaultColor={theme.colors.primary_300}
+            paginationActiveColor={theme.colors.primary_100}
             data={colors}
             keyExtractor={(item, index) => `key-${index}`}
             renderItem={({ item }) => (
-              <View style={styles.child}>
-                <View style={styles.text}>
+              <View
+                style={[
+                  styles.child,
+                  { backgroundColor: theme.colors.primary_100 },
+                ]}
+              >
+                <View
+                  style={[
+                    { backgroundColor: theme.colors.primary_200 },
+                    styles.text,
+                  ]}
+                >
                   <Text>{item}</Text>
                 </View>
               </View>
@@ -39,7 +67,7 @@ const { width } = Dimensions.get("window");
 const styles = StyleSheet.create({
   container: {
     alignItems: "center",
-    height: "60%",
+    marginBottom: 50,
     width: "100%",
   },
   swiperContainer: {
@@ -50,7 +78,6 @@ const styles = StyleSheet.create({
     textAlign: "left",
     width: "90%",
     fontWeight: "700",
-    fontSize: 15,
   },
   recent: {
     width: "100%",
@@ -62,15 +89,23 @@ const styles = StyleSheet.create({
   child: {
     width: width,
     justifyContent: "center",
-    backgroundColor: "#fff",
     alignItems: "center",
   },
-  text: {
-    fontSize: 15,
-    textAlign: "center",
-    width: "90%",
+  blurview: {
+    justifyContent: "center",
+    alignItems: "center",
+    overflow: "hidden",
+    height: "100%",
     borderRadius: 10,
-    backgroundColor: "#ddd",
+    width: "100%",
+  },
+  text: {
+    justifyContent: "center",
+    alignItems: "center",
+    width: "90%",
+
+    borderRadius: 10,
+
     height: "100%",
   },
 });

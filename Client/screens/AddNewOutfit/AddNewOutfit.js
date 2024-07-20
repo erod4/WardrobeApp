@@ -5,15 +5,20 @@ import AddToWardrobeButton, { ModalButton } from "../nav/AddToWardrobeButton";
 import ClothingItems from "./ClothingItems";
 import * as Haptics from "expo-haptics";
 
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import * as Clipboard from "expo-clipboard";
 
 import { useNavigation } from "@react-navigation/native";
+import { addClothingItemContext } from "../Album/AddClothingItemContextProvider/AddClothingItemContext";
 
 const AddNewOutfit = () => {
   const [actionSheet, setActionSheet] = useState(null);
-  const navigator = useNavigation();
+  const { setNavFrom } = useContext(addClothingItemContext);
 
+  const navigator = useNavigation();
+  useEffect(() => {
+    setNavFrom(null);
+  }, []);
   const handleModalPress = () => {
     setActionSheet(true);
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
@@ -43,12 +48,14 @@ const styles = StyleSheet.create({
 });
 
 const ModalOptions = ({ setActionSheet }) => {
+  const { setNavFrom } = useContext(addClothingItemContext);
   const navigator = useNavigation();
 
   const handlePasteImage = async () => {
     try {
       const img = await Clipboard.getImageAsync({ format: "png" });
       if (img) {
+        setNavFrom("AddNewOutfit");
         navigator.navigate("Album_Single", { copiedImage: img, photo: null });
         closeBottomSheet();
       } else {
@@ -72,10 +79,12 @@ const ModalOptions = ({ setActionSheet }) => {
           setActionSheet(false);
           break;
         case 1:
+          setNavFrom("AddNewOutfit");
           navigator.navigate("Photo", { photo: null, copiedImage: null });
 
           break;
         case 2:
+          setNavFrom("AddNewOutfit");
           navigator.navigate("Album_Single", {
             photo: null,
             copiedImage: null,
